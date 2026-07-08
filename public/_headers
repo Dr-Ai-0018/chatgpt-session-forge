@@ -1,0 +1,7 @@
+# Security headers for Cloudflare Pages (copied verbatim into dist/ by Vite).
+# GitHub Pages ignores this file; there the CSP <meta> in index.html applies.
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: no-referrer
+  Permissions-Policy: geolocation=(), microphone=(), camera=()
