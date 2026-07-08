@@ -11,9 +11,11 @@ const DICT: Dict = {
   offlineSub: { zh: "无联网 · 内存运行 · 零落盘", en: "NO NET · IN-MEMORY · ZERO WRITE" },
 
   inputTitle: { zh: "会话输入", en: "SESSION INPUT" },
+  srcHint: { zh: "凭据来源 →", en: "Get JSON from →" },
+  srcHintGuide: { zh: "查看教程 ?", en: "How-to ?" },
   inputPlaceholder: {
-    zh: "// 粘贴 ChatGPT 会话 JSON\n// 支持单对象 / 数组 / 每行一条\n{\n  \"user\": { \"email\": \"...\" },\n  \"accessToken\": \"eyJ...\",\n  \"expires\": \"2026-06-01T00:00:00Z\"\n}",
-    en: "// paste ChatGPT session JSON\n// single object, array, or NDJSON\n{\n  \"user\": { \"email\": \"...\" },\n  \"accessToken\": \"eyJ...\",\n  \"expires\": \"2026-06-01T00:00:00Z\"\n}",
+    zh: "// 先登录 chatgpt.com,打开 chatgpt.com/api/auth/session\n// 复制返回的 JSON 粘贴到这里(单对象 / 数组 / 每行一条)\n{\n  \"user\": { \"email\": \"...\" },\n  \"accessToken\": \"eyJ...\",\n  \"expires\": \"2026-06-01T00:00:00Z\"\n}",
+    en: "// sign in at chatgpt.com, open chatgpt.com/api/auth/session\n// copy the returned JSON here (single object, array, or NDJSON)\n{\n  \"user\": { \"email\": \"...\" },\n  \"accessToken\": \"eyJ...\",\n  \"expires\": \"2026-06-01T00:00:00Z\"\n}",
   },
   addFiles: { zh: "添加文件", en: "ADD FILES" },
   dropHint: { zh: "或拖入 .json", en: "or drop .json here" },

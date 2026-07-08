@@ -15,6 +15,7 @@ export function InputPane({ wide }: { wide: boolean }) {
 
   const pushToast = useUi((s) => s.pushToast);
   const confirm = useUi((s) => s.confirm);
+  const openModal = useUi((s) => s.openModal);
   const fileRef = useRef<HTMLInputElement>(null);
 
   const [dragging, setDragging] = useState(false);
@@ -67,6 +68,49 @@ export function InputPane({ wide }: { wide: boolean }) {
           {t("inputTitle")}
         </span>
         <span className="sf-meta">{filesMeta}</span>
+      </div>
+
+      {/* where to get the JSON — the one thing a first-timer needs, always visible */}
+      <div
+        style={{
+          flex: "0 0 auto",
+          display: "flex",
+          alignItems: "center",
+          gap: 8,
+          padding: "6px 12px",
+          borderBottom: "1px solid var(--color-b2)",
+          background: "color-mix(in oklab, var(--acc) 5%, transparent)",
+          fontSize: 10.5,
+          letterSpacing: ".02em",
+          minWidth: 0,
+        }}
+      >
+        <span style={{ flex: "0 0 auto", color: "var(--color-mut)" }}>{t("srcHint")}</span>
+        <a
+          href="https://chatgpt.com/api/auth/session"
+          target="_blank"
+          rel="noopener noreferrer"
+          title="chatgpt.com/api/auth/session"
+          style={{
+            minWidth: 0,
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+            color: "var(--acc)",
+            fontFamily: "var(--font-mono)",
+            textDecoration: "none",
+            borderBottom: "1px dotted color-mix(in oklab, var(--acc) 55%, transparent)",
+          }}
+        >
+          chatgpt.com/api/auth/session
+        </a>
+        <button
+          onClick={() => openModal("guide")}
+          className="focus-ring"
+          style={{ marginLeft: "auto", flex: "0 0 auto", color: "var(--acc)", fontSize: 10.5, letterSpacing: ".04em" }}
+        >
+          {t("srcHintGuide")}
+        </button>
       </div>
 
       <textarea
