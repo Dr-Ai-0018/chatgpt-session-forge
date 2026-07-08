@@ -1,0 +1,198 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`converters > produces stable output for 9router 1`] = `
+[
+  {
+    "accessToken": "demo_access_token_do_not_use_eyJhbGciOiJub25lIn0.demo.signature",
+    "authType": "oauth",
+    "createdAt": "2025-06-01T00:00:00.000Z",
+    "email": "demo@example.com",
+    "expiresAt": "2099-12-31T23:59:59.000Z",
+    "expiresIn": 2353708799,
+    "isActive": true,
+    "name": "Demo User",
+    "priority": 9,
+    "provider": "codex",
+    "testStatus": "active",
+    "updatedAt": "2025-06-01T00:00:00.000Z",
+  },
+  {
+    "accessToken": "demo_codex_access_token_do_not_use_abcdef",
+    "authType": "oauth",
+    "createdAt": "2025-06-01T00:00:00.000Z",
+    "email": "codex@example.com",
+    "isActive": true,
+    "name": "Codex Demo",
+    "priority": 9,
+    "provider": "codex",
+    "refreshToken": "demo_codex_refresh_token_do_not_use_abcdef",
+    "testStatus": "active",
+    "updatedAt": "2025-06-01T00:00:00.000Z",
+  },
+]
+`;
+
+exports[`converters > produces stable output for axonhub 1`] = `
+[
+  {
+    "auth_mode": "chatgpt",
+    "axonhub_note": "refresh_token is a placeholder; access_token works only until it expires.",
+    "axonhub_refresh_token_placeholder": true,
+    "last_refresh": "2099-12-31T22:59:59.000Z",
+    "tokens": {
+      "access_token": "demo_access_token_do_not_use_eyJhbGciOiJub25lIn0.demo.signature",
+      "refresh_token": "__missing_refresh_token__",
+    },
+  },
+  {
+    "auth_mode": "chatgpt",
+    "last_refresh": "2025-06-01T00:00:00.000Z",
+    "tokens": {
+      "access_token": "demo_codex_access_token_do_not_use_abcdef",
+      "refresh_token": "demo_codex_refresh_token_do_not_use_abcdef",
+    },
+  },
+]
+`;
+
+exports[`converters > produces stable output for cockpit 1`] = `
+[
+  {
+    "access_token": "demo_access_token_do_not_use_eyJhbGciOiJub25lIn0.demo.signature",
+    "email": "demo@example.com",
+    "expired": "2099-12-31T23:59:59.000Z",
+    "last_refresh": "2025-06-01T00:00:00.000Z",
+    "refresh_token": "",
+    "type": "codex",
+  },
+  {
+    "access_token": "demo_codex_access_token_do_not_use_abcdef",
+    "email": "codex@example.com",
+    "last_refresh": "2025-06-01T00:00:00.000Z",
+    "refresh_token": "demo_codex_refresh_token_do_not_use_abcdef",
+    "type": "codex",
+  },
+]
+`;
+
+exports[`converters > produces stable output for codex 1`] = `
+[
+  {
+    "OPENAI_API_KEY": null,
+    "auth_mode": "chatgpt",
+    "last_refresh": "2025-06-01T00:00:00.000Z",
+    "tokens": {
+      "access_token": "demo_access_token_do_not_use_eyJhbGciOiJub25lIn0.demo.signature",
+      "refresh_token": "",
+    },
+  },
+  {
+    "OPENAI_API_KEY": null,
+    "auth_mode": "chatgpt",
+    "last_refresh": "2025-06-01T00:00:00.000Z",
+    "tokens": {
+      "access_token": "demo_codex_access_token_do_not_use_abcdef",
+      "refresh_token": "demo_codex_refresh_token_do_not_use_abcdef",
+    },
+  },
+]
+`;
+
+exports[`converters > produces stable output for codex-manager 1`] = `
+[
+  {
+    "meta": {
+      "label": "Demo User",
+      "note": "Imported from ChatGPT session",
+    },
+    "tokens": {
+      "access_token": "demo_access_token_do_not_use_eyJhbGciOiJub25lIn0.demo.signature",
+      "id_token": "",
+      "refresh_token": "",
+    },
+  },
+  {
+    "meta": {
+      "label": "Codex Demo",
+      "note": "Imported from ChatGPT session",
+    },
+    "tokens": {
+      "access_token": "demo_codex_access_token_do_not_use_abcdef",
+      "id_token": "",
+      "refresh_token": "demo_codex_refresh_token_do_not_use_abcdef",
+    },
+  },
+]
+`;
+
+exports[`converters > produces stable output for cpa 1`] = `
+[
+  {
+    "access_token": "demo_access_token_do_not_use_eyJhbGciOiJub25lIn0.demo.signature",
+    "email": "demo@example.com",
+    "expired": "2099-12-31T23:59:59.000Z",
+    "last_refresh": "2025-06-01T00:00:00.000Z",
+    "name": "Demo User",
+    "refresh_token": "",
+    "session_token": "demo_session_token_do_not_use_1234567890",
+    "type": "codex",
+  },
+  {
+    "access_token": "demo_codex_access_token_do_not_use_abcdef",
+    "email": "codex@example.com",
+    "last_refresh": "2025-06-01T00:00:00.000Z",
+    "name": "Codex Demo",
+    "refresh_token": "demo_codex_refresh_token_do_not_use_abcdef",
+    "type": "codex",
+  },
+]
+`;
+
+exports[`converters > produces stable output for sub2api 1`] = `
+{
+  "accounts": [
+    {
+      "auto_pause_on_expired": true,
+      "concurrency": 10,
+      "credentials": {
+        "access_token": "demo_access_token_do_not_use_eyJhbGciOiJub25lIn0.demo.signature",
+        "email": "demo@example.com",
+        "expires_at": "2099-12-31T23:59:59.000Z",
+        "expires_in": 2353708799,
+      },
+      "extra": {
+        "email": "demo@example.com",
+        "email_key": "demo_example_com",
+        "last_refresh": "2025-06-01T00:00:00.000Z",
+        "name": "Demo User",
+        "source": "chatgpt_web_session",
+      },
+      "name": "Demo User",
+      "platform": "openai",
+      "priority": 1,
+      "type": "oauth",
+    },
+    {
+      "auto_pause_on_expired": true,
+      "concurrency": 10,
+      "credentials": {
+        "access_token": "demo_codex_access_token_do_not_use_abcdef",
+        "email": "codex@example.com",
+      },
+      "extra": {
+        "email": "codex@example.com",
+        "email_key": "codex_example_com",
+        "last_refresh": "2025-06-01T00:00:00.000Z",
+        "name": "Codex Demo",
+        "source": "chatgpt_web_session",
+      },
+      "name": "Codex Demo",
+      "platform": "openai",
+      "priority": 1,
+      "type": "oauth",
+    },
+  ],
+  "exported_at": "2025-06-01T00:00:00.000Z",
+  "proxies": [],
+}
+`;
