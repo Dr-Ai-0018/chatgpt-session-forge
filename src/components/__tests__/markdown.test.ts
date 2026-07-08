@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { Markdown } from "../Markdown";
-import { GUIDE_SECTIONS } from "../../content/guide";
+import { GUIDE_BY_LOCALE } from "../../content/guide";
 
 const render = (md: string) => renderToStaticMarkup(createElement(Markdown, { children: md }));
 
@@ -30,9 +30,11 @@ describe("Markdown renderer", () => {
     expect(html).toContain('rel="noopener noreferrer"');
   });
 
-  it("renders every real guide section without throwing", () => {
-    for (const s of GUIDE_SECTIONS) {
-      expect(render(s.body).length).toBeGreaterThan(0);
+  it("renders every real guide section in both locales without throwing", () => {
+    for (const locale of ["zh", "en"] as const) {
+      for (const s of GUIDE_BY_LOCALE[locale]) {
+        expect(render(s.body).length).toBeGreaterThan(0);
+      }
     }
   });
 });

@@ -1,6 +1,8 @@
 import rawZh from "./guide.zh.md?raw";
+import rawEn from "./guide.en.md?raw";
 
 export type GuideGroup = "guide" | "channel";
+export type GuideLocale = "zh" | "en";
 
 export interface GuideSection {
   id: string;
@@ -26,4 +28,15 @@ function parseGuide(raw: string): GuideSection[] {
   });
 }
 
-export const GUIDE_SECTIONS: GuideSection[] = parseGuide(rawZh);
+export const GUIDE_BY_LOCALE: Record<GuideLocale, GuideSection[]> = {
+  zh: parseGuide(rawZh),
+  en: parseGuide(rawEn),
+};
+
+/** Sections for a locale, falling back to Chinese. */
+export function getGuideSections(locale: string): GuideSection[] {
+  return GUIDE_BY_LOCALE[locale as GuideLocale] ?? GUIDE_BY_LOCALE.zh;
+}
+
+/** Default (zh) sections — kept for tests and non-localized callers. */
+export const GUIDE_SECTIONS: GuideSection[] = GUIDE_BY_LOCALE.zh;

@@ -1,27 +1,33 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Modal } from "./Modal";
 import { Markdown } from "./Markdown";
-import { GUIDE_SECTIONS, type GuideSection } from "../content/guide";
+import { getGuideSections, type GuideSection } from "../content/guide";
 import { useUi } from "../ui-store";
 import { useI18n } from "../lib/i18n";
 import { useMediaQuery } from "../lib/useMediaQuery";
 
 /** Tabbed, markdown-rendered setup guide — one tab per downstream channel + how-to + notes. */
 export function GuideModal() {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const closeModal = useUi((s) => s.closeModal);
   const wide = useMediaQuery("(min-width: 900px)");
 
-  const [activeId, setActiveId] = useState(GUIDE_SECTIONS[0]?.id ?? "");
-  const idx = Math.max(0, GUIDE_SECTIONS.findIndex((s) => s.id === activeId));
-  const section = GUIDE_SECTIONS[idx] ?? GUIDE_SECTIONS[0];
+  // Section ids are identical across locales, so the active tab survives a language switch.
+  const sections = useMemo(() => getGuideSections(locale), [locale]);
+
+  const [activeId, setActiveId] = useState(sections[0]?.id ?? "");
+  const idx = Math.max(
+    0,
+    sections.findIndex((s) => s.id === activeId),
+  );
+  const section = sections[idx] ?? sections[0];
 
   const groups = useMemo(
     () => ({
-      guide: GUIDE_SECTIONS.filter((s) => s.group === "guide"),
-      channel: GUIDE_SECTIONS.filter((s) => s.group === "channel"),
+      guide: sections.filter((s) => s.group === "guide"),
+      channel: sections.filter((s) => s.group === "channel"),
     }),
-    [],
+    [sections],
   );
 
   // reset scroll to top whenever the active tab changes
@@ -82,20 +88,20 @@ export function GuideModal() {
       footer={
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%" }}>
           <span className="sf-meta">
-            {idx + 1} / {GUIDE_SECTIONS.length}
+            {idx + 1} / {sections.length}
           </span>
           <div style={{ display: "flex", gap: 8 }}>
             <button
               className="sf-btn focus-ring"
               disabled={idx === 0}
-              onClick={() => setActiveId(GUIDE_SECTIONS[idx - 1].id)}
+              onClick={() => setActiveId(sections[idx - 1].id)}
             >
               ← {t("guidePrev")}
             </button>
             <button
               className="sf-btn focus-ring"
-              disabled={idx >= GUIDE_SECTIONS.length - 1}
-              onClick={() => setActiveId(GUIDE_SECTIONS[idx + 1].id)}
+              disabled={idx >= sections.length - 1}
+              onClick={() => setActiveId(sections[idx + 1].id)}
             >
               {t("guideNext")} →
             </button>
@@ -139,7 +145,7 @@ export function GuideModal() {
               background: "var(--color-b3)",
             }}
           >
-            {GUIDE_SECTIONS.map((s) => (
+            {sections.map((s) => (
               <NavItem key={s.id} s={s} />
             ))}
           </div>
