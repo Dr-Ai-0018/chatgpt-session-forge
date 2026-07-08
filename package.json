@@ -4,6 +4,7 @@
   "version": "0.1.0",
   "type": "module",
   "description": "Offline, browser-only ChatGPT session credential converter. No network, no storage.",
+  "license": "MIT",
   "keywords": [
     "chatgpt",
     "codex",
