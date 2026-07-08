@@ -2,12 +2,17 @@
 
 **[中文](#中文) · [English](#english)**
 
+[![GitHub](https://img.shields.io/badge/GitHub-Dr--Ai--0018%2Fchatgpt--session--forge-181717?logo=github)](https://github.com/Dr-Ai-0018/chatgpt-session-forge)
+[![Stars](https://img.shields.io/github/stars/Dr-Ai-0018/chatgpt-session-forge?logo=github&label=stars)](https://github.com/Dr-Ai-0018/chatgpt-session-forge/stargazers)
+[![License: MIT](https://img.shields.io/badge/License-MIT-46c8b0)](LICENSE)
 ![offline](https://img.shields.io/badge/offline-100%25-f5a623)
 ![backend](https://img.shields.io/badge/backend-none-46c8b0)
 ![csp](https://img.shields.io/badge/connect--src-'none'-e5544e)
 ![react](https://img.shields.io/badge/React-18-57b6ff)
 ![typescript](https://img.shields.io/badge/TypeScript-strict-3178c6)
 ![vite](https://img.shields.io/badge/Vite-6-646cff)
+
+**Repo:** <https://github.com/Dr-Ai-0018/chatgpt-session-forge>
 
 > 把一段 **ChatGPT 网页会话凭据** 锻造成 7 种下游工具能直接吃的格式。
 > A browser-only tool that forges one **ChatGPT web session** into 7 downstream auth formats.
@@ -148,6 +153,26 @@ The `core/` folder is a pure library — reusable from a CLI, a worker, or tests
 - **react-markdown + remark-gfm + rehype-highlight** — the in-app guide (lazy-loaded, code-split)
 - **Vitest** — 22 tests (core snapshots + guide parsing + markdown rendering)
 
+### Deploy
+
+It's a static SPA — any static host works, with **no server and no env vars**.
+
+- **GitHub Pages (automated).** The workflow at `.github/workflows/deploy.yml`
+  builds and publishes `dist/` on every push to `main`. Enable it once via
+  *Settings → Pages → Source → GitHub Actions*; the site then lands at
+  `https://dr-ai-0018.github.io/chatgpt-session-forge/`. `vite.config.ts` uses a
+  relative `base`, so it works under the repo subpath with no changes.
+- **Cloudflare Pages.** Connect the repo in the Cloudflare dashboard, set build
+  command `npm run build` and output directory `dist`. `public/_headers` adds
+  security headers on Cloudflare automatically.
+
 ### Disclaimer
 
 This is an independent open-source tool and is **not affiliated with OpenAI**. Converting, sharing, or rotating account credentials may violate OpenAI's Terms of Service; you are responsible for how you use it. Only use it with accounts you **own or are authorized to manage**.
+
+---
+
+## License
+
+MIT © [Dr-Ai-0018](https://github.com/Dr-Ai-0018) — see [LICENSE](LICENSE).
+本项目以 MIT 协议开源,详见 [LICENSE](LICENSE)。
