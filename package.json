@@ -4,6 +4,29 @@
   "version": "0.1.0",
   "type": "module",
   "description": "Offline, browser-only ChatGPT session credential converter. No network, no storage.",
+  "keywords": [
+    "chatgpt",
+    "codex",
+    "openai",
+    "oauth",
+    "auth-json",
+    "sub2api",
+    "session-token",
+    "token-converter",
+    "offline",
+    "client-side",
+    "react",
+    "typescript",
+    "vite"
+  ],
+  "homepage": "https://github.com/Dr-Ai-0018/chatgpt-session-forge#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dr-Ai-0018/chatgpt-session-forge.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Dr-Ai-0018/chatgpt-session-forge/issues"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
@@ -13,7 +36,6 @@
     "typecheck": "tsc -b --noEmit"
   },
   "dependencies": {
-    "@fontsource-variable/inter": "^5.2.8",
     "@fontsource-variable/jetbrains-mono": "^5.2.8",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -28,7 +50,6 @@
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-react": "^4.3.4",
-    "lucide-react": "^0.469.0",
     "tailwindcss": "^4.0.0",
     "typescript": "^5.7.2",
     "vite": "^6.0.5",
