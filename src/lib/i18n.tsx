@@ -17,6 +17,8 @@ const DICT: Dict = {
   },
   addFiles: { zh: "添加文件", en: "ADD FILES" },
   dropHint: { zh: "或拖入 .json", en: "or drop .json here" },
+  mFiles: { zh: "个文件", en: "FILES" },
+  mPasteDrop: { zh: "粘贴 / 拖入", en: "PASTE / DROP" },
   sample: { zh: "示例", en: "SAMPLE" },
   clear: { zh: "清空", en: "CLEAR" },
   fmtTitle: { zh: "输出格式", en: "OUTPUT FORMAT" },
@@ -81,6 +83,7 @@ const DICT: Dict = {
     zh: "等待输入 — 粘贴会话 JSON,选择格式,运行锻造",
     en: "AWAITING INPUT — PASTE SESSION JSON, PICK A FORMAT, RUN FORGE",
   },
+  emptyForged: { zh: "未识别到账号", en: "No accounts found" },
 
   // toasts
   "toast.copied": { zh: "已复制到剪贴板", en: "Copied to clipboard" },

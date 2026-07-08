@@ -20,9 +20,7 @@ export function InputPane({ wide }: { wide: boolean }) {
   const [dragging, setDragging] = useState(false);
   const [focused, setFocused] = useState(false);
 
-  const filesMeta = files.length
-    ? `${files.length} ${files.length === 1 ? "FILE" : "FILES"}`
-    : "PASTE / DROP";
+  const filesMeta = files.length ? `${files.length} ${t("mFiles")}` : t("mPasteDrop");
 
   async function onClear() {
     const ok = await confirm({

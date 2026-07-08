@@ -22,10 +22,10 @@ export function AccountsList({ onOpen }: { onOpen?: () => void }) {
 
   return (
     <div style={{ flex: "1 1 auto", minHeight: 0, overflowY: "auto" }}>
-      {accounts.length === 0 ? (
+      {accounts.length === 0 && skipped.length === 0 ? (
         <div className="sf-empty" style={{ height: "100%", minHeight: 160, padding: "24px 18px", fontSize: 10.5 }}>
           <span className="glyph">{hasRun ? "∅" : "▚"}</span>
-          <span>{hasRun ? t("noSkipped") : t("awaiting")}</span>
+          <span>{hasRun ? t("emptyForged") : t("awaiting")}</span>
         </div>
       ) : (
         <>
