@@ -1,0 +1,654 @@
+@import "@fontsource-variable/jetbrains-mono";
+@import "tailwindcss";
+
+/* ============================================================================
+   SessionForge — amber instrument / air-gapped terminal
+   Every default browser surface is overridden below. Nothing native remains.
+   ========================================================================== */
+@theme {
+  --color-bg: #0b0a09;
+  --color-hd: #100f0d;
+  --color-code: #0e0d0b;
+
+  --color-ink: #ddd6c8;
+  --color-ink2: #a89f8d;
+  --color-mut: #8f887a;
+  --color-faint: #635d52;
+  --color-dim: #4a453c;
+
+  --color-b1: #262320;
+  --color-b2: #1c1a17;
+  --color-b3: #141210;
+  --color-b4: #2c2822;
+
+  --color-amber: #f5a623;
+  --color-teal: #46c8b0;
+  --color-red: #e5544e;
+
+  --font-mono: "JetBrains Mono Variable", ui-monospace, "SF Mono", "Cascadia Code", Menlo,
+    Consolas, monospace;
+}
+
+/* accent is themeable (amber / green / ice); set on the shell, read via var(--acc) */
+:root {
+  --acc: #f5a623;
+  color-scheme: dark;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* instrument texture: faint CRT scanlines + corner vignette (you feel it, barely see it) */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 55;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0,
+      transparent 2px,
+      rgba(0, 0, 0, 0.035) 2px,
+      rgba(0, 0, 0, 0.035) 3px
+    ),
+    radial-gradient(130% 105% at 50% -5%, transparent 62%, rgba(0, 0, 0, 0.4) 100%);
+  mix-blend-mode: multiply;
+}
+
+/* ---- kill native chrome -------------------------------------------------- */
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+textarea,
+input,
+select {
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: none;
+  outline: none;
+  caret-color: var(--acc);
+}
+textarea {
+  resize: none;
+}
+textarea::placeholder,
+input::placeholder {
+  color: var(--color-dim);
+}
+:focus {
+  outline: none;
+}
+:focus-visible {
+  outline: 1px solid var(--acc);
+  outline-offset: 1px;
+}
+::selection {
+  background: color-mix(in oklab, var(--acc) 30%, transparent);
+  color: #fff;
+}
+
+/* ---- custom scrollbars (webkit + firefox) -------------------------------- */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #2a2620 transparent;
+}
+*::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+*::-webkit-scrollbar-thumb {
+  background: #2a2620;
+  border: 2px solid var(--color-bg);
+  border-radius: 0;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in oklab, var(--acc) 55%, #2a2620);
+}
+*::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* ---- animations (ambient "breathing" + feedback) ------------------------- */
+@keyframes sf-blink {
+  0%,
+  48% {
+    opacity: 1;
+  }
+  49%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes sf-pulse {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes sf-breathe {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 color-mix(in oklab, var(--acc) 22%, transparent);
+  }
+  50% {
+    box-shadow: 0 0 14px 1px color-mix(in oklab, var(--acc) 26%, transparent);
+  }
+}
+@keyframes sf-sweep {
+  0% {
+    left: -32%;
+  }
+  100% {
+    left: 102%;
+  }
+}
+@keyframes sf-toast-in {
+  0% {
+    opacity: 0;
+    transform: translateX(14px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes sf-overlay-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes sf-modal-in {
+  0% {
+    opacity: 0;
+    transform: translateY(8px) scale(0.99);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+@keyframes sf-fade {
+  0% {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes sf-sheet-in {
+  0% {
+    transform: translateY(100%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+@keyframes sf-forge-shimmer {
+  0% {
+    left: -70%;
+  }
+  60%,
+  100% {
+    left: 140%;
+  }
+}
+@keyframes sf-forge-glow {
+  0%,
+  100% {
+    box-shadow:
+      0 0 0 1px color-mix(in oklab, var(--acc) 45%, transparent),
+      0 5px 16px color-mix(in oklab, var(--acc) 28%, transparent),
+      inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  }
+  50% {
+    box-shadow:
+      0 0 0 1px color-mix(in oklab, var(--acc) 55%, transparent),
+      0 8px 26px color-mix(in oklab, var(--acc) 48%, transparent),
+      0 0 22px color-mix(in oklab, var(--acc) 34%, transparent),
+      inset 0 1px 0 rgba(255, 255, 255, 0.45);
+  }
+}
+/* an elegant twinkle: soft breath in, a brief light bloom, gentle settle — no spinning */
+@keyframes sf-spark {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.65;
+    filter: drop-shadow(0 0 0 rgba(255, 248, 235, 0));
+  }
+  42% {
+    transform: scale(1.16);
+    opacity: 1;
+    filter: drop-shadow(0 0 5px rgba(255, 250, 240, 0.9));
+  }
+  60% {
+    transform: scale(1.02);
+    opacity: 0.95;
+    filter: drop-shadow(0 0 2px rgba(255, 250, 240, 0.35));
+  }
+  100% {
+    transform: scale(0.9);
+    opacity: 0.65;
+    filter: drop-shadow(0 0 0 rgba(255, 248, 235, 0));
+  }
+}
+
+.sf-fade {
+  animation: sf-fade 0.24s ease both;
+}
+
+.sf-blink {
+  animation: sf-blink 1.1s steps(1) infinite;
+}
+.sf-pulse {
+  animation: sf-pulse 2.1s ease-in-out infinite;
+}
+.sf-breathe {
+  animation: sf-breathe 3.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sf-blink,
+  .sf-pulse,
+  .sf-breathe,
+  .sf-fade,
+  .sf-forge,
+  .sf-forge::before,
+  .sf-forge-spark {
+    animation: none;
+  }
+}
+
+@layer components {
+  /* panel header bar */
+  .sf-hd {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 30px;
+    padding: 0 12px;
+    border-bottom: 1px solid var(--color-b2);
+    background: var(--color-hd);
+    flex: 0 0 auto;
+  }
+  .sf-hd-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 10.5px;
+    letter-spacing: 0.16em;
+    color: var(--color-mut);
+    text-transform: uppercase;
+  }
+  .sf-meta {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: var(--color-faint);
+  }
+
+  /* ghost button — themed hover fill */
+  .sf-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: 1px solid var(--color-b4);
+    color: var(--color-ink2);
+    padding: 5px 11px;
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    white-space: nowrap;
+    transition:
+      border-color 0.16s ease,
+      color 0.16s ease,
+      background 0.16s ease;
+  }
+  .sf-btn:hover {
+    border-color: var(--acc);
+    color: var(--acc);
+    background: color-mix(in oklab, var(--acc) 8%, transparent);
+  }
+
+  .acc {
+    color: var(--acc);
+  }
+
+  .sf-row {
+    background: transparent;
+    transition: background 0.12s ease;
+  }
+  .sf-row:hover {
+    background: var(--color-b3);
+  }
+  .sf-accrow:hover .sf-chev {
+    opacity: 1 !important;
+  }
+
+  /* format chips: hover affordance (active state is set inline and wins) */
+  .sf-chip {
+    transition:
+      background 0.15s ease,
+      color 0.15s ease,
+      border-color 0.15s ease;
+  }
+  .sf-chip:hover {
+    border-color: var(--acc);
+    color: var(--acc);
+  }
+
+  /* horizontal chip strip with no visible scrollbar */
+  .sf-chipbar {
+    scrollbar-width: none;
+  }
+  .sf-chipbar::-webkit-scrollbar {
+    height: 0;
+    display: none;
+  }
+
+  /* the star of the show — a powered "EXECUTE" key */
+  .sf-forge {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    color: #0b0a09;
+    font-weight: 800;
+    border: 1px solid color-mix(in oklab, var(--acc) 55%, #fff);
+    background:
+      linear-gradient(
+        135deg,
+        color-mix(in oklab, var(--acc) 82%, #fff) 0%,
+        var(--acc) 42%,
+        color-mix(in oklab, var(--acc) 68%, #000) 100%
+      );
+    box-shadow:
+      0 0 0 1px color-mix(in oklab, var(--acc) 45%, transparent),
+      0 6px 20px color-mix(in oklab, var(--acc) 34%, transparent),
+      inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    animation: sf-forge-glow 2.6s ease-in-out infinite;
+    transition:
+      filter 0.15s ease,
+      transform 0.12s ease;
+  }
+  /* diagonal light glint sweeping across, then a pause */
+  .sf-forge::before {
+    content: "";
+    position: absolute;
+    top: -20%;
+    left: -70%;
+    width: 45%;
+    height: 140%;
+    z-index: 0;
+    background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+    transform: skewX(-18deg);
+    animation: sf-forge-shimmer 3s ease-in-out infinite;
+    pointer-events: none;
+  }
+  .sf-forge > * {
+    position: relative;
+    z-index: 1;
+  }
+  .sf-forge:hover {
+    filter: brightness(1.09) saturate(1.05);
+    box-shadow:
+      0 0 0 1px color-mix(in oklab, var(--acc) 60%, transparent),
+      0 10px 30px color-mix(in oklab, var(--acc) 55%, transparent),
+      0 0 26px color-mix(in oklab, var(--acc) 45%, transparent),
+      inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  }
+  .sf-forge:active {
+    transform: translateY(1px) scale(0.99);
+  }
+  .sf-forge-spark {
+    display: inline-block;
+    transform-origin: center;
+    animation: sf-spark 2.9s ease-in-out infinite;
+  }
+
+  .sf-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    text-align: center;
+    color: var(--color-faint);
+    letter-spacing: 0.1em;
+    line-height: 1.9;
+  }
+  .sf-empty .glyph {
+    font-size: 22px;
+    color: var(--color-b4);
+  }
+
+  /* guide tabs (nav rail + mobile strip) */
+  .sf-guide-tab {
+    display: block;
+    width: 100%;
+    transition:
+      color 0.14s ease,
+      background 0.14s ease,
+      border-color 0.14s ease;
+  }
+  .sf-guide-tab:hover {
+    color: var(--acc);
+    background: color-mix(in oklab, var(--acc) 7%, transparent);
+  }
+}
+
+/* ============================================================================
+   Markdown surface (.sf-md) — GFM rendered to the amber instrument palette.
+   ========================================================================== */
+.sf-md {
+  color: var(--color-ink2);
+  font-size: 12.5px;
+  line-height: 1.75;
+  animation: sf-fade 0.2s ease both;
+}
+.sf-md > :first-child {
+  margin-top: 0;
+}
+.sf-md h1 {
+  margin: 2px 0 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--color-b2);
+  color: var(--color-ink);
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+.sf-md h2 {
+  margin: 24px 0 10px;
+  color: var(--color-ink);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+.sf-md h3 {
+  margin: 20px 0 8px;
+  color: var(--acc);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.sf-md p {
+  margin: 9px 0;
+}
+.sf-md strong {
+  color: var(--color-ink);
+  font-weight: 700;
+}
+.sf-md a {
+  color: var(--acc);
+  text-decoration: none;
+  border-bottom: 1px dotted color-mix(in oklab, var(--acc) 55%, transparent);
+  transition: border-color 0.14s ease;
+}
+.sf-md a:hover {
+  border-bottom-style: solid;
+}
+.sf-md ul,
+.sf-md ol {
+  margin: 9px 0;
+  padding-left: 20px;
+}
+.sf-md li {
+  margin: 5px 0;
+}
+.sf-md li::marker {
+  color: var(--acc);
+}
+.sf-md blockquote {
+  margin: 12px 0;
+  padding: 9px 14px;
+  border-left: 2px solid var(--acc);
+  background: color-mix(in oklab, var(--acc) 6%, transparent);
+  color: var(--color-ink2);
+}
+.sf-md blockquote p {
+  margin: 4px 0;
+}
+.sf-md hr {
+  margin: 20px 0;
+  border: none;
+  border-top: 1px solid var(--color-b2);
+}
+.sf-md-inline {
+  padding: 1px 5px;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  color: var(--acc);
+  background: var(--color-b3);
+  border: 1px solid var(--color-b2);
+  word-break: break-word;
+}
+.sf-md pre {
+  margin: 12px 0;
+  padding: 13px 15px;
+  background: var(--color-code);
+  border: 1px solid var(--color-b2);
+  border-left: 2px solid color-mix(in oklab, var(--acc) 40%, var(--color-b2));
+  overflow-x: auto;
+}
+.sf-md pre code {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  line-height: 1.65;
+  color: var(--color-ink2);
+  background: none;
+  border: none;
+  padding: 0;
+}
+.sf-md table {
+  width: 100%;
+  margin: 14px 0;
+  border-collapse: collapse;
+  font-size: 11.5px;
+}
+.sf-md th,
+.sf-md td {
+  padding: 7px 11px;
+  border: 1px solid var(--color-b2);
+  text-align: left;
+  vertical-align: top;
+}
+.sf-md th {
+  background: var(--color-b3);
+  color: var(--color-mut);
+  font-weight: 600;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.sf-md tbody tr:hover,
+.sf-md tr:hover td {
+  background: color-mix(in oklab, var(--acc) 4%, transparent);
+}
+
+/* highlight.js tokens — amber terminal theme */
+.sf-md .hljs {
+  color: var(--color-ink2);
+}
+.sf-md .hljs-attr,
+.sf-md .hljs-attribute,
+.sf-md .hljs-property {
+  color: var(--acc);
+}
+.sf-md .hljs-string,
+.sf-md .hljs-symbol {
+  color: var(--color-teal);
+}
+.sf-md .hljs-number,
+.sf-md .hljs-quote {
+  color: #e0b96a;
+}
+.sf-md .hljs-literal,
+.sf-md .hljs-keyword,
+.sf-md .hljs-built_in,
+.sf-md .hljs-type {
+  color: #d98b5f;
+}
+.sf-md .hljs-title,
+.sf-md .hljs-name,
+.sf-md .hljs-section {
+  color: var(--color-ink);
+}
+.sf-md .hljs-comment {
+  color: var(--color-faint);
+  font-style: italic;
+}
+.sf-md .hljs-meta,
+.sf-md .hljs-punctuation {
+  color: var(--color-mut);
+}
+.sf-md .hljs-deletion {
+  color: var(--color-red);
+}
+.sf-md .hljs-addition {
+  color: var(--color-teal);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sf-md {
+    animation: none;
+  }
+}
