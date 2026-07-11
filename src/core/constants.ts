@@ -116,26 +116,40 @@ export const FIELD_PATHS: Record<string, string[]> = {
   ],
 };
 
-/** Offline demo payload — all tokens are fake. */
+/** Offline demo payload matching /api/auth/session — all identities and tokens are fake. */
 export const DEMO_INPUT: JsonValue = {
-  accounts: [
-    {
-      user: { email: "demo@example.com", name: "Demo User" },
-      accessToken: "demo_access_token_do_not_use_eyJhbGciOiJub25lIn0.demo.signature",
-      sessionToken: "demo_session_token_do_not_use_1234567890",
-      expires: "2099-12-31T23:59:59.000Z",
+  WARNING_BANNER:
+    "!!!!!!!!!!!!!!!!!!!! DO NOT SHARE ANY PART OF THE INFORMATION YOU SEE HERE. THIS INFORMATION IS SENSITIVE AND CAN GRANT ACCESS TO YOUR ACCOUNT. SHARING THIS INFORMATION IS LIKE SHARING YOUR PASSWORD. !!!!!!!!!!!!!!!!!!!!",
+  user: {
+    id: "user-demo-do-not-use",
+    name: "Demo User",
+    email: "demo@example.com",
+    idp: "auth0",
+    iat: 1751322000,
+    amr: ["otp", "urn:openai:amr:otp_email"],
+    mfa: false,
+  },
+  expires: "2099-12-31T23:59:59.000Z",
+  account: {
+    id: "acct-demo-do-not-use",
+    planType: "k12",
+    structure: "workspace",
+    organizationId: "org-demo-do-not-use",
+    workspaceType: "production",
+    isUsageBasedSeatEnabled: false,
+    isConversationClassifierEnabledForWorkspace: true,
+    isFedrampCompliantWorkspace: false,
+    isDelinquent: false,
+    residencyRegion: "no_constraint",
+    computeResidency: "no_constraint",
+  },
+  accessToken:
+    "eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJzdWIiOiJkZW1vIiwiaXNzIjoiY2hhdGdwdC1zZXNzaW9uLWZvcmdlIiwiaWF0IjoxNzUxMzIyMDAwLCJleHAiOjQxMDI0NDQ3OTl9.demo_signature_do_not_use",
+  authProvider: "openai",
+  sessionToken: "eyJkZW1vIjp0cnVlLCJ3YXJuaW5nIjoiZG9fbm90X3VzZSJ9.demo_session_token_do_not_use",
+  rumViewTags: {
+    light_account: {
+      fetched: false,
     },
-    {
-      account: { email: "codex@example.com", name: "Codex Demo" },
-      tokens: {
-        access_token: "demo_codex_access_token_do_not_use_abcdef",
-        refresh_token: "demo_codex_refresh_token_do_not_use_abcdef",
-        expires_at: 4102444799,
-      },
-    },
-    {
-      email: "missing-token@example.com",
-      name: "Will Be Skipped",
-    },
-  ],
+  },
 };

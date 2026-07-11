@@ -25,10 +25,28 @@ https://chatgpt.com/api/auth/session
 
 ```json
 {
-  "user": { "email": "you@example.com", "name": "You", "id": "user-..." },
-  "accessToken": "eyJhbGciOi...a very long string...",
+  "WARNING_BANNER": "DO NOT SHARE...",
+  "user": {
+    "id": "user-...",
+    "name": "You",
+    "email": "you@example.com",
+    "idp": "auth0",
+    "iat": 1751322000,
+    "amr": ["otp", "urn:openai:amr:otp_email"],
+    "mfa": false
+  },
   "expires": "2026-08-01T00:00:00.000Z",
-  "account": { "id": "acct-...", "planType": "plus" }
+  "account": {
+    "id": "acct-...",
+    "planType": "k12",
+    "structure": "workspace",
+    "organizationId": "org-...",
+    "workspaceType": "production"
+  },
+  "accessToken": "eyJhbGciOi...a very long string...",
+  "authProvider": "openai",
+  "sessionToken": "eyJ...a very long string...",
+  "rumViewTags": { "light_account": { "fetched": false } }
 }
 ```
 

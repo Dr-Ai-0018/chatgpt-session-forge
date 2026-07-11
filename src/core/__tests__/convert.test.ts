@@ -34,15 +34,17 @@ function demoSources(): Source[] {
 }
 
 describe("parseSources", () => {
-  it("extracts the two token-bearing accounts and skips the identity-only one", () => {
+  it("extracts the endpoint-shaped demo session", () => {
     const result = parseSources(demoSources(), FIXED.getTime());
-    expect(result.accounts).toHaveLength(2);
-    expect(result.accounts.map((a) => a.email)).toEqual([
-      "demo@example.com",
-      "codex@example.com",
-    ]);
-    // The third demo entry has no token -> skipped.
-    expect(result.skipped.some((s) => s.reason.includes("缺少"))).toBe(true);
+    expect(result.accounts).toHaveLength(1);
+    expect(result.accounts[0]).toMatchObject({
+      email: "demo@example.com",
+      name: "Demo User",
+      accountId: "acct-demo-do-not-use",
+      planType: "k12",
+      authProvider: "openai",
+    });
+    expect(result.skipped).toHaveLength(0);
   });
 
   it("dedupes identical accounts across sources", () => {
@@ -51,7 +53,7 @@ describe("parseSources", () => {
       { name: "b.json", text: JSON.stringify(DEMO_INPUT) },
     ];
     const result = parseSources(twice, FIXED.getTime());
-    expect(result.accounts).toHaveLength(2);
+    expect(result.accounts).toHaveLength(1);
     expect(result.skipped.some((s) => s.reason.includes("重复"))).toBe(true);
   });
 
